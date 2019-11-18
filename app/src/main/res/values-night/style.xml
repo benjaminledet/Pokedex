@@ -1,0 +1,12 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="BaseAppTheme.Night" parent="BaseAppTheme">
+
+        <item name="android:colorBackground">@color/lightDark</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+    </style>
+    <style name="AppTheme" parent="BaseAppTheme.Night" />sources>
+
+</resources>
