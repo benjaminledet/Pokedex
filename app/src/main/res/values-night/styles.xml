@@ -7,6 +7,6 @@
         <item name="android:windowLightStatusBar">false</item>
 
     </style>
-    <style name="AppTheme" parent="BaseAppTheme.Night" />sources>
+    <style name="AppTheme" parent="BaseAppTheme.Night" />
 
 </resources>
