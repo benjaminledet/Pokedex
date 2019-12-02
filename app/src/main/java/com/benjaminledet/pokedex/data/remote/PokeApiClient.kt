@@ -24,6 +24,34 @@ class PokeApiClient: KoinComponent {
     }
 
     /**
+     * Get abilities by their ids
+     */
+    suspend fun getAbilities(names: List<String>): List<Ability> {
+        return coroutineScope {
+            names.parallelMap(this)  { name ->
+                val response = performRequest {
+                    service.getAbilityAsync(name)
+                }
+                abilityResponseToAbility(response)
+            }.toList()
+        }
+    }
+
+    /**
+     * Get moves by their ids
+     */
+    suspend fun getMoves(names: List<String>): List<Move> {
+        return coroutineScope {
+            names.parallelMap(this)  { name ->
+                val response = performRequest {
+                    service.getMoveAsync(name)
+                }
+                moveResponseToMove(response)
+            }.toList()
+        }
+    }
+
+    /**
      * Get a pokemon by its id
      */
     suspend fun getPokemonDetail(id: Int): Pokemon {
@@ -91,7 +119,9 @@ class PokeApiClient: KoinComponent {
         detail = PokemonDetail(
             weight = pokemonResponse.weight / 10,
             height = pokemonResponse.height / 10,
-            types = pokemonResponse.types.mapNotNull { it.type.name }
+            types = pokemonResponse.types.mapNotNull { it.type.name },
+            abilities = pokemonResponse.abilities.mapNotNull { it.ability.name },
+            moves = pokemonResponse.moves.mapNotNull { it.move.name }
         )
     )
 
@@ -113,6 +143,21 @@ class PokeApiClient: KoinComponent {
         id = itemPocketResponse.id,
         name = itemPocketResponse.name.capitalize(),
         itemCategoryNameList = itemPocketResponse.categories.mapNotNull { it.name }
+    )
+
+    private fun abilityResponseToAbility(abilityResponse: AbilityResponse) = Ability(
+        id = abilityResponse.id,
+        name = abilityResponse.name,
+        description = abilityResponse.effectEntries.joinToString(". ")
+    )
+
+    private fun moveResponseToMove(moveResponse: MoveResponse) = Move(
+        id = moveResponse.id,
+        name = moveResponse.name,
+        type = moveResponse.type.name?.capitalize() ?: "",
+        accuracy = moveResponse.accuracy,
+        power = moveResponse.power,
+        pp = moveResponse.pp
     )
 
     /**

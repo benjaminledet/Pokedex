@@ -5,7 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.toLiveData
+import com.benjaminledet.pokedex.data.local.dao.AbilityDao
+import com.benjaminledet.pokedex.data.local.dao.MoveDao
 import com.benjaminledet.pokedex.data.local.dao.PokemonDao
+import com.benjaminledet.pokedex.data.model.Ability
+import com.benjaminledet.pokedex.data.model.Move
 import com.benjaminledet.pokedex.data.model.Pokemon
 import com.benjaminledet.pokedex.data.remote.PokeApiClient
 import com.benjaminledet.pokedex.data.repository.utils.BoundaryCallback
@@ -19,9 +23,15 @@ import org.koin.standalone.inject
 
 class PokemonRepository: KoinComponent {
 
+    private val abilityDao by inject<AbilityDao>()
     private val pokemonDao by inject<PokemonDao>()
+    private val moveDao by inject<MoveDao>()
 
     private val pokeApiClient by inject<PokeApiClient>()
+
+    fun getAbilities(names: List<String>) = abilityDao.getAllObservable(names)
+
+    fun getMoves(names: List<String>) = moveDao.getAllObservable(names)
 
     fun getPokemonObservable(id: Int) = pokemonDao.getByIdObservable(id)
 
@@ -74,6 +84,13 @@ class PokemonRepository: KoinComponent {
             try {
                 val pokemon = pokeApiClient.getPokemonDetail(id)
                 insertPokemons(listOf(pokemon))
+                pokemon.detail?.let { pokemonDetail ->
+                    val abilities = pokeApiClient.getAbilities(pokemonDetail.abilities)
+                    insertAbilities(abilities)
+                    val moves = pokeApiClient.getMoves(pokemonDetail.moves)
+                    insertMoves(moves)
+                }
+
                 networkState.postValue(NetworkState.LOADED)
                 Log.v(TAG, "refresh pokemon: ${Status.SUCCESS}")
 
@@ -116,6 +133,16 @@ class PokemonRepository: KoinComponent {
     private suspend fun insertPokemons(pokemons: List<Pokemon>) {
         Log.v(TAG, "insert pokemons: $pokemons")
         pokemonDao.insert(pokemons)
+    }
+
+    private suspend fun insertAbilities(abilities: List<Ability>) {
+        Log.v(TAG, "insert abilities: $abilities")
+        abilityDao.insert(abilities)
+    }
+
+    private suspend fun insertMoves(moves: List<Move>) {
+        Log.v(TAG, "insert moves: $moves")
+        moveDao.insert(moves)
     }
 
     companion object {

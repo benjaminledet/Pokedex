@@ -17,6 +17,13 @@ class PokemonDetailViewModel(application: Application): AndroidViewModel(applica
 
     val pokemon = pokemonId.switchMap { id -> pokemonRepository.getPokemonObservable(id) }
 
-    val refreshState = pokemonId.switchMap { id -> pokemonRepository.refreshPokemon(viewModelScope, id) }
+    val abilities = pokemon.switchMap { pokemon ->
+        pokemonRepository.getAbilities(pokemon?.detail?.abilities ?: listOf())
+    }
 
+    val moves = pokemon.switchMap { pokemon ->
+        pokemonRepository.getMoves(pokemon?.detail?.moves ?: listOf())
+    }
+
+    val refreshState = pokemonId.switchMap { id -> pokemonRepository.refreshPokemon(viewModelScope, id) }
 }

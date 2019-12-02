@@ -1,6 +1,7 @@
 package com.benjaminledet.pokedex.ui.pokemon.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -34,6 +35,14 @@ class PokemonDetailActivity: AppCompatActivity() {
             height.text = getString(R.string.pokemon_height, pokemon?.detail?.height.toString())
 
             Picasso.get().load(pokemon?.iconUrl).into(icon)
+        })
+
+        viewModel.abilities.observe(this, Observer {
+            Log.d("PokemonDetailActivity", "abilities: $it")
+        })
+
+        viewModel.moves.observe(this, Observer {
+            Log.d("PokemonDetailActivity", "moves: $it")
         })
     }
 
