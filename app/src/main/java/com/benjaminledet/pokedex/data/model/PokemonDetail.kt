@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 
 data class PokemonDetail(
 
+    @ColumnInfo(name = MOVES)
+    val moves: List<String>,
+
     @ColumnInfo(name = WEIGHT)
     val weight: Double,
 
@@ -18,5 +21,6 @@ data class PokemonDetail(
         const val WEIGHT = "weight"
         const val HEIGHT = "height"
         const val TYPES = "types"
+        const val MOVES = "moves"
     }
 }

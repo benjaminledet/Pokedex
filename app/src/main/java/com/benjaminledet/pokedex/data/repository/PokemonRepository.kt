@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.toLiveData
+import com.benjaminledet.pokedex.data.local.dao.MoveDao
 import com.benjaminledet.pokedex.data.local.dao.PokemonDao
+import com.benjaminledet.pokedex.data.model.Move
 import com.benjaminledet.pokedex.data.model.Pokemon
 import com.benjaminledet.pokedex.data.remote.PokeApiClient
 import com.benjaminledet.pokedex.data.repository.utils.BoundaryCallback
@@ -20,12 +22,17 @@ import org.koin.standalone.inject
 class PokemonRepository: KoinComponent {
 
     private val pokemonDao by inject<PokemonDao>()
+    private val movesDao by inject<MoveDao>()
 
     private val pokeApiClient by inject<PokeApiClient>()
 
     fun getPokemonObservable(id: Int) = pokemonDao.getByIdObservable(id)
 
     fun getAllPokemonsObservable() = pokemonDao.getAllObservable()
+
+
+
+    fun getMovesObservable(names: List<String>) = movesDao.getAllObservable(names)
 
     fun getAllPokemonsPagedList(scope: CoroutineScope, pageSize: Int): Listing<Pokemon> {
 
@@ -74,6 +81,14 @@ class PokemonRepository: KoinComponent {
             try {
                 val pokemon = pokeApiClient.getPokemonDetail(id)
                 insertPokemons(listOf(pokemon))
+
+                pokemon.detail?.moves?.let {moves ->
+                        if (moves.isNotEmpty())
+                        {
+                            val moves = pokeApiClient.getMoves(moves)
+                            insertMoves(moves)
+                        }
+                    }
                 networkState.postValue(NetworkState.LOADED)
                 Log.v(TAG, "refresh pokemon: ${Status.SUCCESS}")
 
@@ -116,6 +131,11 @@ class PokemonRepository: KoinComponent {
     private suspend fun insertPokemons(pokemons: List<Pokemon>) {
         Log.v(TAG, "insert pokemons: $pokemons")
         pokemonDao.insert(pokemons)
+    }
+
+    private suspend fun insertMoves(moves: List<Move>) {
+        Log.v(TAG, "insert moves: $moves")
+        movesDao.insert(moves)
     }
 
     companion object {
