@@ -34,44 +34,116 @@
         >
 
             <ImageView
-                    android:id="@+id/icon"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="top|center"
-            />
+                android:id="@+id/icon"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="top|center" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-                android:id="@+id/weight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                tools:text="6.9kg"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:gravity="center"
-                app:layout_constraintStart_toStartOf="@+id/height"
-                app:layout_constraintHorizontal_bias="0.0"
-                android:layout_marginBottom="228dp" app:layout_constraintBottom_toBottomOf="parent"
-        />
+            android:id="@+id/weight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="228dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/height"
+            tools:text="6.9kg" />
 
         <TextView
-                android:id="@+id/height"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="0.7m"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/weight" android:layout_marginTop="24dp"
-                app:layout_constraintHorizontal_bias="0.0" android:gravity="center"/>
+            android:id="@+id/height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/weight"
+            tools:text="0.7m" />
+
         <TextView
-                android:id="@+id/type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="fire"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/height" android:layout_marginTop="24dp"
-                app:layout_constraintHorizontal_bias="0.0" android:gravity="center" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.053"/>
+            android:id="@+id/type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/height"
+            app:layout_constraintVertical_bias="0.053"
+            tools:text="fire" />
+
+        <Button
+            android:id="@+id/attackOne"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:elevation="5dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.066"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type"
+            app:layout_constraintVertical_bias="0.341" />
+
+        <Button
+            android:id="@+id/attackThree"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:clickable="false"
+            android:elevation="5dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type"
+            app:layout_constraintVertical_bias="0.949" />
+
+        <Button
+            android:id="@+id/attackTwo"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:clickable="false"
+            android:elevation="5dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toEndOf="@+id/attackOne"
+            app:layout_constraintTop_toBottomOf="@+id/type"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/attackFour"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:clickable="false"
+            android:elevation="5dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.745"
+            app:layout_constraintStart_toEndOf="@+id/attackThree"
+            app:layout_constraintTop_toBottomOf="@+id/type"
+            app:layout_constraintVertical_bias="0.923" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

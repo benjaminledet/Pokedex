@@ -1,12 +1,13 @@
 package com.benjaminledet.pokedex.ui.pokemon.detail
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,6 +16,7 @@ import com.benjaminledet.pokedex.data.repository.utils.Status
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_pokemon_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class PokemonDetailFragment: Fragment() {
 
@@ -53,33 +55,69 @@ class PokemonDetailFragment: Fragment() {
                 // data HEX COLOR from http://epidemicjohto.forumotion.com/t882-type-colors-hex-colors
 
                 when(mainTypePokemon){
-                    "poison" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.poison))
-                    "fire" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.fire))
-                    "water" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.water))
-                    "ground" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.ground))
-                    "rock" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.rock))
-                    "psychic" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.psychic))
-                    "dark" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.dark))
-                    "bug" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.bug))
-                    "dragon" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.dragon))
-                    "grass" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.grass))
-                    "ice" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.ice))
-                    "ghost" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.ghost))
-                    "electric" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.electric))
-                    "normal" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.normal))
-                    "steal" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.steal))
-                    "fairy" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.fairy))
-                    "fighting" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.fighting))
-                    "flying" -> pokemonContainer.setBackgroundColor(requireContext().getColor(R.color.flying))
-                    else -> pokemonContainer.setBackgroundColor(Color.TRANSPARENT)
+                    "poison" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.poison))
+                    "fire" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.fire))
+                    "water" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.water))
+                    "ground" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.ground))
+                    "rock" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.rock))
+                    "psychic" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.psychic))
+                    "dark" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.dark))
+                    "bug" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.bug))
+                    "dragon" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.dragon))
+                    "grass" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.grass))
+                    "ice" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.ice))
+                    "ghost" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.ghost))
+                    "electric" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.electric))
+                    "normal" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.normal))
+                    "steal" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.steal))
+                    "fairy" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.fairy))
+                    "fighting" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.fighting))
+                    "flying" -> pokemonContainer.setCardBackgroundColor(requireContext().getColor(R.color.flying))
+                    else -> pokemonContainer.setCardBackgroundColor(Color.TRANSPARENT)
                 }
             }
+
             Picasso.get().load(pokemon?.iconUrl).into(icon)
+            val animation = AnimationUtils.loadAnimation(this.context, R.anim.bounce)
+            icon.startAnimation(animation)
+
         })
 
-
         viewModel.moves.observe(this, Observer { moves ->
-            Log.v("PokemonDetailMoves", "moves : $moves")
+
+            val color = pokemonContainer.cardBackgroundColor.defaultColor
+
+            attackOne.setBackgroundColor(color)
+            attackTwo.setBackgroundColor(color)
+            attackThree.setBackgroundColor(color)
+            attackFour.setBackgroundColor(color)
+
+            if (moves.isNotEmpty())
+            {
+                var randomOne = 0
+                var randomTwo = 0
+                var randomThree = 0
+                var randomFour = 0
+
+                val end = moves.size - 1
+
+                randomOne = (0..end).shuffled().first()
+                randomTwo = (0..end).shuffled().first()
+                randomThree= (0..end).shuffled().first()
+                randomFour = (0..end).shuffled().first()
+
+                attackOne.text = moves[randomOne].toString()
+                attackTwo.text = moves[randomTwo].toString()
+                attackThree.text = moves[randomThree].toString()
+                attackFour.text = moves[randomFour].toString()
+            }
+            else
+            {
+                attackOne.text = "-"
+                attackTwo.text = "-"
+                attackThree.text = "-"
+                attackFour.text = "-"
+            }
         })
     }
 }

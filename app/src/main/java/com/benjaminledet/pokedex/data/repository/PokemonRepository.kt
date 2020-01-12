@@ -80,6 +80,7 @@ class PokemonRepository: KoinComponent {
         scope.launch {
             try {
                 val pokemon = pokeApiClient.getPokemonDetail(id)
+
                 insertPokemons(listOf(pokemon))
 
                 pokemon.detail?.moves?.let {moves ->
